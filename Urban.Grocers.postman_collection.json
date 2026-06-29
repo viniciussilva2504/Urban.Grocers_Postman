@@ -1,0 +1,241 @@
+{
+  "info": {
+    "_postman_id": "08e09863-548a-4286-b6f6-e6374adae9c2",
+    "name": "Urban.Grocers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51729196",
+    "_collection_link": "https://go.postman.co/collection/51729196-08e09863-548a-4286-b6f6-e6374adae9c2?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Obter uma lista de kits no cartão",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "\r",
+              "// 1. Validar se a URL respondeu com sucesso (código 200)\r",
+              "pm.test(\"Status code é 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// 2. Validar se a resposta veio em formato de lista (array)\r",
+              "pm.test(\"A resposta é uma lista de kits\", function () {\r",
+              "    pm.expect(pm.response.json()).to.be.an('array');\r",
+              "});\r",
+              "\r",
+              "// 3. Validar se o primeiro kit da lista tem um 'id'\r",
+              "pm.test(\"O primeiro kit da lista tem um ID\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData[0]).to.have.property('id');\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{server_url}}/api/v1/kits?cardId=1",
+          "host": [
+            "{{server_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "kits"
+          ],
+          "query": [
+            {
+              "key": "cardId",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obter uma lista de produtos no kit",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "\r",
+              "// 1. Validar se a busca funcionou (código 200)\r",
+              "pm.test(\"Status code é 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "// 2. Validar se o nome do kit retornado é realmente \"Into space\"\r",
+              "pm.test(\"O nome do kit retornado é 'Into space'\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    // Pega o primeiro item da lista e verifica se o nome dele é Into space\r",
+              "    pm.expect(jsonData[0].name).to.eql(\"Into space\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{server_url}}/api/v1/kits/search?name=Into+space",
+          "host": [
+            "{{server_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "kits",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "Into+space"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Criar um kit vazio",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "\r",
+              "// 1. Validar se o servidor criou o recurso (código 201 = Criado)\r",
+              "pm.test(\"Status code é 201 (Criado com sucesso)\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "// 2. Validar se a resposta trouxe um ID (prova que foi salvo no banco)\r",
+              "pm.test(\"A resposta contém um 'id'\", function () {\r",
+              "    pm.response.to.have.jsonBody('id');\r",
+              "});\r",
+              "// 3. Validar se o nome do kit que foi criado é o que eu mandei\r",
+              "pm.test(\"O nome do kit criado está correto\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.name).to.eql(\"Into space\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"cardId\": 1, \r\n    \"name\": \"Into space\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{server_url}}/api/v1/kits?cardId=1",
+          "host": [
+            "{{server_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "kits"
+          ],
+          "query": [
+            {
+              "key": "cardId",
+              "value": "1",
+              "description": "Into space\n"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obter uma lista de kits com produtos que são aprovados pela condição da solicitação",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "\r",
+              "// 1. Validar sucesso\r",
+              "pm.test(\"Status code é 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "// 2. Validar se a resposta é uma lista\r",
+              "pm.test(\"A resposta é uma lista de produtos\", function () {\r",
+              "    pm.expect(pm.response.json()).to.be.an('array');\r",
+              "});\r",
+              "// 3. Validar se a lista NÃO está vazia (tem produtos dentro)\r",
+              "pm.test(\"A lista de produtos não está vazia\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.length).to.be.above(0);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"ids\": [\r\n        1,\r\n        22\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{server_url}}/api/v1/products/kits",
+          "host": [
+            "{{server_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "products",
+            "kits"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
