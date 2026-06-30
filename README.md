@@ -33,14 +33,27 @@ O objetivo é demonstrar não apenas o domínio da ferramenta Postman, mas tamb�
 ---
 ## 🛠 Estrutura do Projeto
 
-| Arquivo/Pasta | Descrição |
-| :--- | :--- |
-| `.github/workflows/api-tests.yml` | Pipeline de CI/CD (GitHub Actions) |
-| `collections/Urban.Grocers.postman_collection.json` | Suíte de testes (Requisições + Scripts) |
-| `environments/tripleten_qa_api.postman_environment.json` | Variáveis de ambiente (URL base) |
-| `scripts/exemplos_curl.md` | Comandos cURL para execução via terminal |
-| `captions/video_demo.mp4` | Vídeo demonstrativo da execução dos testes |
-| `README.md` | Documentação completa do projeto |
+```plaintext
+📦 Urban.Grocers_Postman/
+│
+├── 📁 .github/
+│   └── 📁 workflows/
+│       └── api-tests.yml                 # Pipeline de CI/CD (GitHub Actions)
+│
+├── 📁 collections/
+│   └── Urban.Grocers.postman_collection.json  # Suíte de testes (Requisições + Scripts)
+│
+├── 📁 environments/
+│   └── tripleten_qa_api.postman_environment.json  # Variáveis de ambiente (URL base)
+│
+├── 📁 scripts/
+│   └── exemplos_curl.md                  # Comandos cURL para execução via terminal
+│
+├── 📁 captions/
+│   └── video_demo.mp4                    # Vídeo demonstrativo da execução dos testes
+│
+└── README.md                             # Documentação completa do projeto
+```
 ---
 
 ### 1. Executando localmente via Postman (Interface Gráfica)
